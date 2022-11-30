@@ -34,16 +34,8 @@ public final class MusicGroupImpl implements MusicGroup {
 
     @Override
     public Stream<String> orderedSongNames() {
-        // List<String> names = new ArrayList<>();
-        // List<String> result = names.stream().sorted().collect(Collectors.toList());
-        // Stream<String> result = this.songs.stream().sorted();
-        // Stream<Song> result =
-        // this.songs.stream().sorted().collect(Collectors.joining());
-        // Stream<String> tmp = songs.stream().sorted().collect(Collectors.joining());
-        // Stream<String> result = albums.keySet().stream().sorted().distinct();
-        // Stream<String> result = songs.stream().;
         Stream<String> result = songs.stream().map(Song::getSongName).sorted();
-        return result;// new Stream<>(this.songs).sorted().Collectors(collect(toString));
+        return result;
     }
 
     @Override
