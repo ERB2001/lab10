@@ -52,11 +52,12 @@ public final class MusicGroupImpl implements MusicGroup {
 
     @Override
     public int countSongs(final String albumName) {
-        // da correggere perchè vuole le canzoni
-        // long tmp = albums.keySet().stream().count();
-        // long tmp = albums.keySet().filter();
-        // int result = (int) tmp;
-        return -1;
+        long tmp = songs
+                .stream()
+                .filter(s -> s.getAlbumName().isPresent())
+                .filter(s -> s.getAlbumName().get().equals(albumName)).count();
+        int count = ((int) tmp);
+        return count;
     }
 
     @Override
