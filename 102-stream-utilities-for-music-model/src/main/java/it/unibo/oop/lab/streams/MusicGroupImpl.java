@@ -1,11 +1,14 @@
 package it.unibo.oop.lab.streams;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -31,12 +34,20 @@ public final class MusicGroupImpl implements MusicGroup {
 
     @Override
     public Stream<String> orderedSongNames() {
-        return null;
+        // List<String> names = new ArrayList<>();
+        // List<String> result = names.stream().sorted().collect(Collectors.toList());
+        // Stream<String> result = this.songs.stream().sorted();
+        // Stream<Song> result =
+        // this.songs.stream().sorted().collect(Collectors.joining());
+        // Stream<String> tmp = songs.stream().sorted().collect(Collectors.joining());
+        // Stream<String> result = albums.keySet().stream().sorted().distinct();
+        return null;// new Stream<>(this.songs).sorted().Collectors(collect(toString));
     }
 
     @Override
     public Stream<String> albumNames() {
-        return null;
+        Stream<String> result = albums.keySet().stream();
+        return result;
     }
 
     @Override
