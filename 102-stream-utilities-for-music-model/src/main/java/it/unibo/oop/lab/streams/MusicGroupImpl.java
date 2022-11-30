@@ -41,6 +41,8 @@ public final class MusicGroupImpl implements MusicGroup {
         // this.songs.stream().sorted().collect(Collectors.joining());
         // Stream<String> tmp = songs.stream().sorted().collect(Collectors.joining());
         // Stream<String> result = albums.keySet().stream().sorted().distinct();
+        // Stream<String> result = songs.stream().;
+
         return null;// new Stream<>(this.songs).sorted().Collectors(collect(toString));
     }
 
@@ -52,11 +54,16 @@ public final class MusicGroupImpl implements MusicGroup {
 
     @Override
     public Stream<String> albumInYear(final int year) {
-        return null;
+        Stream<String> result = albums.keySet().stream().filter(s -> albums.get(s) == year);
+        return result;
     }
 
     @Override
     public int countSongs(final String albumName) {
+        // da correggere perchè vuole le canzoni
+        // long tmp = albums.keySet().stream().count();
+        // long tmp = albums.keySet().filter();
+        // int result = (int) tmp;
         return -1;
     }
 
