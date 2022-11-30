@@ -2,10 +2,12 @@ package it.unibo.oop.lab.lambda;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -65,14 +67,15 @@ public final class LambdaUtilities {
         /*
          * Suggestion: consider Optional.filter
          */
-        final List<Optional<T>> myList = new ArrayList<>();
-
-        list.forEach(t -> {
-            myList.add(Optional.of(t).filter(pre));
-        });
-
-        return myList;
+        final List<Optional<T>> resultList = new ArrayList<>();
+        list.forEach(t -> resultList.add(Optional.of(t).filter(pre)));
+        return resultList;
     }
+    /*
+     * Con le lambda posso evitare di mettere le graffe quando c'è un'unica
+     * istruzioni,
+     * mentre se ci sono più istruzioni devo mettere il return obbligatorio
+     */
 
     /**
      * @param list
@@ -90,11 +93,14 @@ public final class LambdaUtilities {
         /*
          * Suggestion: consider Map.merge
          */
-        final Map<R, Set<T>> myMap = new HashMap<>();
-
-        myMap.merge(null, null, null);
-
-        return null;
+        final Map<R, Set<T>> resultMap = new HashMap<>();
+        list.forEach(t -> {
+            resultMap.merge(op.apply(t), new HashSet<>(Set.of(t)), (oldElements, newElements) -> {
+                oldElements.addAll(newElements);
+                return oldElements;//
+            });
+        });
+        return resultMap;
     }
 
     /**
@@ -108,6 +114,8 @@ public final class LambdaUtilities {
      *            key type
      * @return a map whose non present values are filled with the value provided
      *         by the supplier
+     *         una mappa i cui valori non presenti sono riempiti
+     *         con il valore fornito dal fornitore
      */
     public static <K, V> Map<K, V> fill(final Map<K, Optional<V>> map, final Supplier<V> def) {
         /*
@@ -115,7 +123,14 @@ public final class LambdaUtilities {
          *
          * Keep in mind that a map can be iterated through its forEach method
          */
-        return null;
+        final Map<K, V> resultMap = new HashMap<>();
+        map.forEach((k, v) -> resultMap.put(k, v.orElseGet(def)));
+        /*
+         * questa istruzione mi permette di inserire nel caso di chiave vuota
+         * dei valori forniti dal "fornitore"(supplier)
+         */
+
+        return resultMap;
     }
 
     /**
