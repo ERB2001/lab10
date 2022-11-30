@@ -42,8 +42,8 @@ public final class MusicGroupImpl implements MusicGroup {
         // Stream<String> tmp = songs.stream().sorted().collect(Collectors.joining());
         // Stream<String> result = albums.keySet().stream().sorted().distinct();
         // Stream<String> result = songs.stream().;
-
-        return null;// new Stream<>(this.songs).sorted().Collectors(collect(toString));
+        Stream<String> result = songs.stream().map(Song::getSongName).sorted();
+        return result;// new Stream<>(this.songs).sorted().Collectors(collect(toString));
     }
 
     @Override
