@@ -124,24 +124,4 @@ final class TestMusicGroup {
         assertEquals("When the Levee Breaks", lz.longestSong().get());
         assertEquals(UNTITLED, lz.longestAlbum().get());
     }
-    /*
-     * public int countSongs(final String albumName) {
-     * long tmp = songs
-     * .stream()
-     * .filter(s -> s.getAlbumName().isPresent())
-     * .filter(s -> s.getAlbumName().get().equals(albumName)).count();
-     * int count = ((int) tmp);
-     * return count;
-     * }
-     */
-    /*
-     * public Stream<String> orderedSongNames() {
-     * Stream<String> result = songs
-     * .stream()
-     * .map(Song::getSongName)
-     * .sorted();
-     * return result;
-     * }
-     */
-
 }

@@ -1,6 +1,7 @@
 package it.unibo.oop.lab.streams;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -81,25 +82,36 @@ public final class MusicGroupImpl implements MusicGroup {
 
     @Override
     public OptionalDouble averageDurationOfSongs(final String albumName) {
-        // ottengo il numero di canzoni associate ad un album
-        long songsCounter = songs
-                .stream()
-                .filter(s -> s.getAlbumName().isPresent())
-                .filter(s -> s.getAlbumName().get().equals(albumName)).count();
         // ottengo la somma tra la durata delle varie canzoni
         Optional<Double> averageOfSongsDuration = songs
                 .stream()
                 .filter(s -> s.getAlbumName().isPresent())
                 .filter(s -> s.getAlbumName().get().equals(albumName))
                 .map(Song::getDuration)
-                .reduce((a, b) -> (a + b) / songsCounter);
-        OptionalDouble result = OptionalDouble.of(averageOfSongsDuration.get());
+                .reduce((a, b) -> (a + b));
+        OptionalDouble result = OptionalDouble.of(averageOfSongsDuration.get() / this.countSongs(albumName));
         return result;
     }
+    /*
+     * versione 2: averageOfSongsDuration = songs
+     * .stream()
+     * .filter(s -> s.getAlbumName().isPresent())
+     * .filter(s -> s.getAlbumName().get().equals(albumName))
+     * .mapToDouble(Song::getDuration)
+     * .average();
+     * OptionalDouble result = OptionalDouble.of(averageOfSongsDuration.get() /
+     * this.countSongs(albumName));
+     * return result;
+     */
 
     @Override
     public Optional<String> longestSong() {
-        return null;
+        Optional<String> maxOfSongsDuration = songs
+                .stream()
+                .max((a, b) -> a.getDuration() > b.getDuration() ? 1 : -1)
+                .map(Song::getSongName);
+
+        return maxOfSongsDuration;
     }
 
     @Override
