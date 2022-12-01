@@ -34,19 +34,27 @@ public final class MusicGroupImpl implements MusicGroup {
 
     @Override
     public Stream<String> orderedSongNames() {
-        Stream<String> result = songs.stream().map(Song::getSongName).sorted();
+        Stream<String> result = songs
+                .stream()
+                .map(Song::getSongName)
+                .sorted();
         return result;
     }
 
     @Override
     public Stream<String> albumNames() {
-        Stream<String> result = albums.keySet().stream();
+        Stream<String> result = albums
+                .keySet()
+                .stream();
         return result;
     }
 
     @Override
     public Stream<String> albumInYear(final int year) {
-        Stream<String> result = albums.keySet().stream().filter(s -> albums.get(s) == year);
+        Stream<String> result = albums
+                .keySet()
+                .stream()
+                .filter(s -> albums.get(s) == year);
         return result;
     }
 
@@ -55,7 +63,8 @@ public final class MusicGroupImpl implements MusicGroup {
         long tmp = songs
                 .stream()
                 .filter(s -> s.getAlbumName().isPresent())
-                .filter(s -> s.getAlbumName().get().equals(albumName)).count();
+                .filter(s -> s.getAlbumName().get().equals(albumName))
+                .count();
         int count = ((int) tmp);
         return count;
     }
@@ -64,7 +73,7 @@ public final class MusicGroupImpl implements MusicGroup {
     public int countSongsInNoAlbum() {
         long tmp = songs
                 .stream()
-                .filter(s -> s.getAlbumName().isEmpty())
+                .filter(s -> s.getAlbumName().isEmpty()) // o .filter(s -> !s.getAlbumName().isPresent())
                 .count();
         int count = ((int) tmp);
         return count;
@@ -72,7 +81,20 @@ public final class MusicGroupImpl implements MusicGroup {
 
     @Override
     public OptionalDouble averageDurationOfSongs(final String albumName) {
-        return null;
+        // ottengo il numero di canzoni associate ad un album
+        long songsCounter = songs
+                .stream()
+                .filter(s -> s.getAlbumName().isPresent())
+                .filter(s -> s.getAlbumName().get().equals(albumName)).count();
+        // ottengo la somma tra la durata delle varie canzoni
+        Optional<Double> averageOfSongsDuration = songs
+                .stream()
+                .filter(s -> s.getAlbumName().isPresent())
+                .filter(s -> s.getAlbumName().get().equals(albumName))
+                .map(Song::getDuration)
+                .reduce((a, b) -> (a + b) / songsCounter);
+        OptionalDouble result = OptionalDouble.of(averageOfSongsDuration.get());
+        return result;
     }
 
     @Override
