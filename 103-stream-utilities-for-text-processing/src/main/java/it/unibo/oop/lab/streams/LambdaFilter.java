@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.Toolkit;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -19,15 +20,17 @@ import javax.swing.JTextArea;
  * Modify this small program adding new filters.
  * Realize this exercise using as much as possible the Stream library.
  *
- * 1) Convert to lowercase
+ * 1) Convert to lowercase --> converti in minuscolo
  *
- * 2) Count the number of chars
+ * 2) Count the number of chars --> conta il numero di caratteri
  *
- * 3) Count the number of lines
+ * 3) Count the number of lines --> conta il numero di righe
  *
- * 4) List all the words in alphabetical order
+ * 4) List all the words in alphabetical order --> metti tutte le parole in
+ * ordine alfabetico crescente
  * 
- * 5) Write the count for each word, e.g. "word word pippo" should output "pippo -> 1 word -> 2"
+ * 5) Write the count for each word, e.g. "word word pippo" should output "pippo
+ * -> 1 word -> 2"
  *
  */
 public final class LambdaFilter extends JFrame {
@@ -56,6 +59,14 @@ public final class LambdaFilter extends JFrame {
         public String translate(final String s) {
             return fun.apply(s);
         }
+
+        /*
+         * public Stream<String> toLowerCase(final String s) {
+         * List<String> lowerCase =
+         * list.stream().map(String::toLowerCase).collect(Collectors.toList());
+         * return null;
+         * }
+         */
     }
 
     private LambdaFilter() {
@@ -76,7 +87,15 @@ public final class LambdaFilter extends JFrame {
         centralPanel.add(right);
         panel1.add(centralPanel, BorderLayout.CENTER);
         final JButton apply = new JButton("Apply");
-        apply.addActionListener(ev -> right.setText(((Command) combo.getSelectedItem()).translate(left.getText())));
+        // apply.addActionListener(ev -> right.setText(((Command)
+        // combo.getSelectedItem()).translate(left.getText())));
+        apply.addActionListener(ev -> {
+            right.setText(((Command) combo.getSelectedItem()).translate(left.getText()));
+            right.setText(left.getText().toLowerCase());
+        });
+
+        final JButton converter = new JButton("Converter");
+        converter.addActionListener(ev -> right.getText().toLowerCase());
         panel1.add(apply, BorderLayout.SOUTH);
         setContentPane(panel1);
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
