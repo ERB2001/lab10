@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.Toolkit;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -26,8 +28,8 @@ import javax.swing.JTextArea;
  *
  * 3) Count the number of lines --> conta il numero di righe
  *
- * 4) List all the words in alphabetical order --> metti tutte le parole in
- * ordine alfabetico crescente
+ * 4) List all the words in alphabetical order --> elencare le parole inserite
+ * in ordine alfabetico
  * 
  * 5) Write the count for each word, e.g. "word word pippo" should output "pippo
  * -> 1 word -> 2"
@@ -36,6 +38,8 @@ import javax.swing.JTextArea;
 public final class LambdaFilter extends JFrame {
 
     private static final long serialVersionUID = 1760990730218643730L;
+
+    // private final static String NEWLINE = "\n";
 
     private enum Command {
         /**
@@ -89,13 +93,32 @@ public final class LambdaFilter extends JFrame {
         final JButton apply = new JButton("Apply");
         // apply.addActionListener(ev -> right.setText(((Command)
         // combo.getSelectedItem()).translate(left.getText())));
+        // new Thread(() -> right.setText)
         apply.addActionListener(ev -> {
-            right.setText(((Command) combo.getSelectedItem()).translate(left.getText()));
-            right.setText(left.getText().toLowerCase());
+            // right.setText(((Command) combo.getSelectedItem()).translate(left.getText()));
+            List<String> list = new ArrayList<String>();
+
+            list.add(left.getText().toLowerCase());
+
+            list.add(String.valueOf(left.getText().chars().filter(ch -> ch != ' ').filter(ch -> ch != '\n').count()));
+
+            list.add(String.valueOf(left.getText().lines().count()));
+
+            right.append(list.toString());
+
+            // right.setText(String.valueOf(left.getText().chars().filter(ch -> ch != '
+            // ').count()));
+
+            // right.setText(String.valueOf(left.getText().lines().count()));
+            // right.setText(String.valueOf(left.getText().toLowerCase().chars().filter(ch
+            // -> ch != ' ').count()));
+
         });
 
-        final JButton converter = new JButton("Converter");
-        converter.addActionListener(ev -> right.getText().toLowerCase());
+        // final JButton converter = new JButton("Converter");
+        // converter.addActionListener(ev ->
+        // right.setText(left.getText().toLowerCase()));
+        // apply.add(converter);
         panel1.add(apply, BorderLayout.SOUTH);
         setContentPane(panel1);
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
